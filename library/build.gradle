@@ -7,10 +7,14 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 25
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
+    compileSdkVersion 25
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 24
         targetSdkVersion 25
     }
 
@@ -23,6 +27,12 @@ android {
 
 apply plugin: 'maven'
 apply plugin: 'signing'
+
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile) {
+        options.compilerArgs.add("-Xbootclasspath/p:${rootDir}/shared/framework_all.jar")
+    }
+}
 
 def isReleaseBuild() {
     return !VERSION_NAME.contains("SNAPSHOT")
