@@ -20,7 +20,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SqliteWrapper;
-import android.net.NetworkUtilsHelper;
+import android.klinkernet.NetworkUtilsHelper;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.Telephony;

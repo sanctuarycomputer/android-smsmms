@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package android.net;
+package android.klinkernet;
 
+import android.net.NetworkInfo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -27,7 +28,7 @@ import android.os.Parcelable;
 public class NetworkState implements Parcelable {
 
     public final NetworkInfo networkInfo;
-    public final LinkProperties linkProperties;
+    public final android.klinkernet.LinkProperties linkProperties;
     public final LinkCapabilities linkCapabilities;
     /**
      * Currently only used by testing.
@@ -35,7 +36,7 @@ public class NetworkState implements Parcelable {
     public final String subscriberId;
     public final String networkId;
 
-    public NetworkState(NetworkInfo networkInfo, LinkProperties linkProperties,
+    public NetworkState(NetworkInfo networkInfo, android.klinkernet.LinkProperties linkProperties,
                         LinkCapabilities linkCapabilities) {
         this(networkInfo, linkProperties, linkCapabilities, null, null);
     }

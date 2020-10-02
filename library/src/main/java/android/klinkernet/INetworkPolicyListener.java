@@ -2,7 +2,7 @@
  * This file is auto-generated.  DO NOT MODIFY.
  * Original file: frameworks/base/core/java/android/net/INetworkPolicyListener.aidl
  */
-package android.net;
+package android.klinkernet;
 
 /**
  * {@hide}
@@ -11,7 +11,7 @@ public interface INetworkPolicyListener extends android.os.IInterface {
     /**
      * Local-side IPC implementation stub class.
      */
-    public static abstract class Stub extends android.os.Binder implements android.net.INetworkPolicyListener {
+    public static abstract class Stub extends android.os.Binder implements INetworkPolicyListener {
         private static final java.lang.String DESCRIPTOR = "android.net.INetworkPolicyListener";
 
         /**
@@ -25,15 +25,15 @@ public interface INetworkPolicyListener extends android.os.IInterface {
          * Cast an IBinder object into an android.net.INetworkPolicyListener interface,
          * generating a proxy if needed.
          */
-        public static android.net.INetworkPolicyListener asInterface(android.os.IBinder obj) {
+        public static INetworkPolicyListener asInterface(android.os.IBinder obj) {
             if ((obj == null)) {
                 return null;
             }
             android.os.IInterface iin = obj.queryLocalInterface(DESCRIPTOR);
-            if (((iin != null) && (iin instanceof android.net.INetworkPolicyListener))) {
-                return ((android.net.INetworkPolicyListener) iin);
+            if (((iin != null) && (iin instanceof INetworkPolicyListener))) {
+                return ((INetworkPolicyListener) iin);
             }
-            return new android.net.INetworkPolicyListener.Stub.Proxy(obj);
+            return new INetworkPolicyListener.Stub.Proxy(obj);
         }
 
         @Override
@@ -75,7 +75,7 @@ public interface INetworkPolicyListener extends android.os.IInterface {
             return super.onTransact(code, data, reply, flags);
         }
 
-        private static class Proxy implements android.net.INetworkPolicyListener {
+        private static class Proxy implements INetworkPolicyListener {
             private android.os.IBinder mRemote;
 
             Proxy(android.os.IBinder remote) {

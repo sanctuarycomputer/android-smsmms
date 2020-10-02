@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package android.net;
+package android.klinkernet;
 
 import com.klinker.android.logger.Log;
 

@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package android.net;
+package android.klinkernet;
 
 
 import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;

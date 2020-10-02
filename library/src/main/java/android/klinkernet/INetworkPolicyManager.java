@@ -2,7 +2,7 @@
  * This file is auto-generated.  DO NOT MODIFY.
  * Original file: frameworks/base/core/java/android/net/INetworkPolicyManager.aidl
  */
-package android.net;
+package android.klinkernet;
 
 /**
  * Interface that creates and modifies network policy rules.
@@ -13,7 +13,7 @@ public interface INetworkPolicyManager extends android.os.IInterface {
     /**
      * Local-side IPC implementation stub class.
      */
-    public static abstract class Stub extends android.os.Binder implements android.net.INetworkPolicyManager {
+    public static abstract class Stub extends android.os.Binder implements INetworkPolicyManager {
         private static final java.lang.String DESCRIPTOR = "android.net.INetworkPolicyManager";
 
         /**
@@ -27,15 +27,15 @@ public interface INetworkPolicyManager extends android.os.IInterface {
          * Cast an IBinder object into an android.net.INetworkPolicyManager interface,
          * generating a proxy if needed.
          */
-        public static android.net.INetworkPolicyManager asInterface(android.os.IBinder obj) {
+        public static INetworkPolicyManager asInterface(android.os.IBinder obj) {
             if ((obj == null)) {
                 return null;
             }
             android.os.IInterface iin = obj.queryLocalInterface(DESCRIPTOR);
-            if (((iin != null) && (iin instanceof android.net.INetworkPolicyManager))) {
-                return ((android.net.INetworkPolicyManager) iin);
+            if (((iin != null) && (iin instanceof INetworkPolicyManager))) {
+                return ((INetworkPolicyManager) iin);
             }
-            return new android.net.INetworkPolicyManager.Stub.Proxy(obj);
+            return new INetworkPolicyManager.Stub.Proxy(obj);
         }
 
         @Override
@@ -89,40 +89,40 @@ public interface INetworkPolicyManager extends android.os.IInterface {
                 }
                 case TRANSACTION_registerListener: {
                     data.enforceInterface(DESCRIPTOR);
-                    android.net.INetworkPolicyListener _arg0;
-                    _arg0 = android.net.INetworkPolicyListener.Stub.asInterface(data.readStrongBinder());
+                    INetworkPolicyListener _arg0;
+                    _arg0 = INetworkPolicyListener.Stub.asInterface(data.readStrongBinder());
                     this.registerListener(_arg0);
                     reply.writeNoException();
                     return true;
                 }
                 case TRANSACTION_unregisterListener: {
                     data.enforceInterface(DESCRIPTOR);
-                    android.net.INetworkPolicyListener _arg0;
-                    _arg0 = android.net.INetworkPolicyListener.Stub.asInterface(data.readStrongBinder());
+                    INetworkPolicyListener _arg0;
+                    _arg0 = INetworkPolicyListener.Stub.asInterface(data.readStrongBinder());
                     this.unregisterListener(_arg0);
                     reply.writeNoException();
                     return true;
                 }
                 case TRANSACTION_setNetworkPolicies: {
                     data.enforceInterface(DESCRIPTOR);
-                    android.net.NetworkPolicy[] _arg0;
-                    _arg0 = data.createTypedArray(android.net.NetworkPolicy.CREATOR);
+                    NetworkPolicy[] _arg0;
+                    _arg0 = data.createTypedArray(NetworkPolicy.CREATOR);
                     this.setNetworkPolicies(_arg0);
                     reply.writeNoException();
                     return true;
                 }
                 case TRANSACTION_getNetworkPolicies: {
                     data.enforceInterface(DESCRIPTOR);
-                    android.net.NetworkPolicy[] _result = this.getNetworkPolicies();
+                    NetworkPolicy[] _result = this.getNetworkPolicies();
                     reply.writeNoException();
                     reply.writeTypedArray(_result, android.os.Parcelable.PARCELABLE_WRITE_RETURN_VALUE);
                     return true;
                 }
                 case TRANSACTION_snoozeLimit: {
                     data.enforceInterface(DESCRIPTOR);
-                    android.net.NetworkTemplate _arg0;
+                    NetworkTemplate _arg0;
                     if ((0 != data.readInt())) {
-                        _arg0 = android.net.NetworkTemplate.CREATOR.createFromParcel(data);
+                        _arg0 = NetworkTemplate.CREATOR.createFromParcel(data);
                     } else {
                         _arg0 = null;
                     }
@@ -147,13 +147,13 @@ public interface INetworkPolicyManager extends android.os.IInterface {
                 }
                 case TRANSACTION_getNetworkQuotaInfo: {
                     data.enforceInterface(DESCRIPTOR);
-                    android.net.NetworkState _arg0;
+                    NetworkState _arg0;
                     if ((0 != data.readInt())) {
-                        _arg0 = android.net.NetworkState.CREATOR.createFromParcel(data);
+                        _arg0 = NetworkState.CREATOR.createFromParcel(data);
                     } else {
                         _arg0 = null;
                     }
-                    android.net.NetworkQuotaInfo _result = this.getNetworkQuotaInfo(_arg0);
+                    NetworkQuotaInfo _result = this.getNetworkQuotaInfo(_arg0);
                     reply.writeNoException();
                     if ((_result != null)) {
                         reply.writeInt(1);
@@ -165,9 +165,9 @@ public interface INetworkPolicyManager extends android.os.IInterface {
                 }
                 case TRANSACTION_isNetworkMetered: {
                     data.enforceInterface(DESCRIPTOR);
-                    android.net.NetworkState _arg0;
+                    NetworkState _arg0;
                     if ((0 != data.readInt())) {
-                        _arg0 = android.net.NetworkState.CREATOR.createFromParcel(data);
+                        _arg0 = NetworkState.CREATOR.createFromParcel(data);
                     } else {
                         _arg0 = null;
                     }
@@ -180,7 +180,7 @@ public interface INetworkPolicyManager extends android.os.IInterface {
             return super.onTransact(code, data, reply, flags);
         }
 
-        private static class Proxy implements android.net.INetworkPolicyManager {
+        private static class Proxy implements INetworkPolicyManager {
             private android.os.IBinder mRemote;
 
             Proxy(android.os.IBinder remote) {
@@ -266,7 +266,7 @@ public interface INetworkPolicyManager extends android.os.IInterface {
             }
 
             @Override
-            public void registerListener(android.net.INetworkPolicyListener listener) throws android.os.RemoteException {
+            public void registerListener(INetworkPolicyListener listener) throws android.os.RemoteException {
                 android.os.Parcel _data = android.os.Parcel.obtain();
                 android.os.Parcel _reply = android.os.Parcel.obtain();
                 try {
@@ -281,7 +281,7 @@ public interface INetworkPolicyManager extends android.os.IInterface {
             }
 
             @Override
-            public void unregisterListener(android.net.INetworkPolicyListener listener) throws android.os.RemoteException {
+            public void unregisterListener(INetworkPolicyListener listener) throws android.os.RemoteException {
                 android.os.Parcel _data = android.os.Parcel.obtain();
                 android.os.Parcel _reply = android.os.Parcel.obtain();
                 try {
@@ -299,7 +299,7 @@ public interface INetworkPolicyManager extends android.os.IInterface {
              * Control network policies atomically.
              */
             @Override
-            public void setNetworkPolicies(android.net.NetworkPolicy[] policies) throws android.os.RemoteException {
+            public void setNetworkPolicies(NetworkPolicy[] policies) throws android.os.RemoteException {
                 android.os.Parcel _data = android.os.Parcel.obtain();
                 android.os.Parcel _reply = android.os.Parcel.obtain();
                 try {
@@ -314,15 +314,15 @@ public interface INetworkPolicyManager extends android.os.IInterface {
             }
 
             @Override
-            public android.net.NetworkPolicy[] getNetworkPolicies() throws android.os.RemoteException {
+            public NetworkPolicy[] getNetworkPolicies() throws android.os.RemoteException {
                 android.os.Parcel _data = android.os.Parcel.obtain();
                 android.os.Parcel _reply = android.os.Parcel.obtain();
-                android.net.NetworkPolicy[] _result;
+                NetworkPolicy[] _result;
                 try {
                     _data.writeInterfaceToken(DESCRIPTOR);
                     mRemote.transact(Stub.TRANSACTION_getNetworkPolicies, _data, _reply, 0);
                     _reply.readException();
-                    _result = _reply.createTypedArray(android.net.NetworkPolicy.CREATOR);
+                    _result = _reply.createTypedArray(NetworkPolicy.CREATOR);
                 } finally {
                     _reply.recycle();
                     _data.recycle();
@@ -334,7 +334,7 @@ public interface INetworkPolicyManager extends android.os.IInterface {
              * Snooze limit on policy matching given template.
              */
             @Override
-            public void snoozeLimit(android.net.NetworkTemplate template) throws android.os.RemoteException {
+            public void snoozeLimit(NetworkTemplate template) throws android.os.RemoteException {
                 android.os.Parcel _data = android.os.Parcel.obtain();
                 android.os.Parcel _reply = android.os.Parcel.obtain();
                 try {
@@ -389,10 +389,10 @@ public interface INetworkPolicyManager extends android.os.IInterface {
             }
 
             @Override
-            public android.net.NetworkQuotaInfo getNetworkQuotaInfo(android.net.NetworkState state) throws android.os.RemoteException {
+            public NetworkQuotaInfo getNetworkQuotaInfo(NetworkState state) throws android.os.RemoteException {
                 android.os.Parcel _data = android.os.Parcel.obtain();
                 android.os.Parcel _reply = android.os.Parcel.obtain();
-                android.net.NetworkQuotaInfo _result;
+                NetworkQuotaInfo _result;
                 try {
                     _data.writeInterfaceToken(DESCRIPTOR);
                     if ((state != null)) {
@@ -404,7 +404,7 @@ public interface INetworkPolicyManager extends android.os.IInterface {
                     mRemote.transact(Stub.TRANSACTION_getNetworkQuotaInfo, _data, _reply, 0);
                     _reply.readException();
                     if ((0 != _reply.readInt())) {
-                        _result = android.net.NetworkQuotaInfo.CREATOR.createFromParcel(_reply);
+                        _result = NetworkQuotaInfo.CREATOR.createFromParcel(_reply);
                     } else {
                         _result = null;
                     }
@@ -416,7 +416,7 @@ public interface INetworkPolicyManager extends android.os.IInterface {
             }
 
             @Override
-            public boolean isNetworkMetered(android.net.NetworkState state) throws android.os.RemoteException {
+            public boolean isNetworkMetered(NetworkState state) throws android.os.RemoteException {
                 android.os.Parcel _data = android.os.Parcel.obtain();
                 android.os.Parcel _reply = android.os.Parcel.obtain();
                 boolean _result;
@@ -465,21 +465,21 @@ public interface INetworkPolicyManager extends android.os.IInterface {
 
     public boolean isUidForeground(int uid) throws android.os.RemoteException;
 
-    public void registerListener(android.net.INetworkPolicyListener listener) throws android.os.RemoteException;
+    public void registerListener(INetworkPolicyListener listener) throws android.os.RemoteException;
 
-    public void unregisterListener(android.net.INetworkPolicyListener listener) throws android.os.RemoteException;
+    public void unregisterListener(INetworkPolicyListener listener) throws android.os.RemoteException;
 
     /**
      * Control network policies atomically.
      */
-    public void setNetworkPolicies(android.net.NetworkPolicy[] policies) throws android.os.RemoteException;
+    public void setNetworkPolicies(NetworkPolicy[] policies) throws android.os.RemoteException;
 
-    public android.net.NetworkPolicy[] getNetworkPolicies() throws android.os.RemoteException;
+    public NetworkPolicy[] getNetworkPolicies() throws android.os.RemoteException;
 
     /**
      * Snooze limit on policy matching given template.
      */
-    public void snoozeLimit(android.net.NetworkTemplate template) throws android.os.RemoteException;
+    public void snoozeLimit(NetworkTemplate template) throws android.os.RemoteException;
 
     /**
      * Control if background data is restricted system-wide.
@@ -488,7 +488,7 @@ public interface INetworkPolicyManager extends android.os.IInterface {
 
     public boolean getRestrictBackground() throws android.os.RemoteException;
 
-    public android.net.NetworkQuotaInfo getNetworkQuotaInfo(android.net.NetworkState state) throws android.os.RemoteException;
+    public NetworkQuotaInfo getNetworkQuotaInfo(NetworkState state) throws android.os.RemoteException;
 
-    public boolean isNetworkMetered(android.net.NetworkState state) throws android.os.RemoteException;
+    public boolean isNetworkMetered(NetworkState state) throws android.os.RemoteException;
 }

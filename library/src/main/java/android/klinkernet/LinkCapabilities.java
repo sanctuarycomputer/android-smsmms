@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package android.net;
+package android.klinkernet;
 
+import android.net.ConnectivityManager;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.klinker.android.logger.Log;

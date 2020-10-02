@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package android.net;
+package android.klinkernet;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -36,7 +36,7 @@ public class RouteInfo implements Parcelable {
     /**
      * The IP destination address for this route.
      */
-    private final LinkAddress mDestination;
+    private final android.klinkernet.LinkAddress mDestination;
 
     /**
      * The gateway address for this route.
@@ -46,19 +46,19 @@ public class RouteInfo implements Parcelable {
     private final boolean mIsDefault;
     private final boolean mIsHost;
 
-    public RouteInfo(LinkAddress destination, InetAddress gateway) {
+    public RouteInfo(android.klinkernet.LinkAddress destination, InetAddress gateway) {
         if (destination == null) {
             if (gateway != null) {
                 if (gateway instanceof Inet4Address) {
                     try {
-                        destination = new LinkAddress(Inet4Address.getLocalHost(), 0);
+                        destination = new android.klinkernet.LinkAddress(Inet4Address.getLocalHost(), 0);
                     } catch (UnknownHostException e) {
                         // TODO Auto-generated catch block
                         Log.e(TAG, "exception thrown", e);
                     }
                 } else {
                     try {
-                        destination = new LinkAddress(Inet6Address.getLocalHost(), 0);
+                        destination = new android.klinkernet.LinkAddress(Inet6Address.getLocalHost(), 0);
                     } catch (UnknownHostException e) {
                         // TODO Auto-generated catch block
                         Log.e(TAG, "exception thrown", e);
@@ -86,7 +86,7 @@ public class RouteInfo implements Parcelable {
                 }
             }
         }
-        mDestination = new LinkAddress(NetworkUtilsHelper.getNetworkPart(destination.getAddress(),
+        mDestination = new android.klinkernet.LinkAddress(NetworkUtilsHelper.getNetworkPart(destination.getAddress(),
                 destination.getNetworkPrefixLength()), destination.getNetworkPrefixLength());
         mGateway = gateway;
         mIsDefault = isDefault();
@@ -105,9 +105,9 @@ public class RouteInfo implements Parcelable {
         if (host == null) return null;
 
         if (host instanceof Inet4Address) {
-            return new RouteInfo(new LinkAddress(host, 32), gateway);
+            return new RouteInfo(new android.klinkernet.LinkAddress(host, 32), gateway);
         } else {
-            return new RouteInfo(new LinkAddress(host, 128), gateway);
+            return new RouteInfo(new android.klinkernet.LinkAddress(host, 128), gateway);
         }
     }
 
@@ -133,7 +133,7 @@ public class RouteInfo implements Parcelable {
     }
 
 
-    public LinkAddress getDestination() {
+    public android.klinkernet.LinkAddress getDestination() {
         return mDestination;
     }
 
@@ -230,7 +230,7 @@ public class RouteInfo implements Parcelable {
                         }
                     }
 
-                    LinkAddress dest = null;
+                    android.klinkernet.LinkAddress dest = null;
 
                     if (destAddr != null) {
                         dest = new LinkAddress(destAddr, prefix);

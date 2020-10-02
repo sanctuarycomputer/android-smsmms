@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package android.net;
+package android.klinkernet;
 
+import android.net.DhcpInfo;
 import android.text.TextUtils;
 import com.klinker.android.logger.Log;
 
@@ -47,17 +48,17 @@ public class DhcpInfoInternal {
      */
     public String vendorInfo;
 
-    private Collection<RouteInfo> mRoutes;
+    private Collection<android.klinkernet.RouteInfo> mRoutes;
 
     public DhcpInfoInternal() {
-        mRoutes = new ArrayList<RouteInfo>();
+        mRoutes = new ArrayList<android.klinkernet.RouteInfo>();
     }
 
-    public void addRoute(RouteInfo routeInfo) {
+    public void addRoute(android.klinkernet.RouteInfo routeInfo) {
         mRoutes.add(routeInfo);
     }
 
-    public Collection<RouteInfo> getRoutes() {
+    public Collection<android.klinkernet.RouteInfo> getRoutes() {
         return Collections.unmodifiableCollection(mRoutes);
     }
 
@@ -77,7 +78,7 @@ public class DhcpInfoInternal {
     public DhcpInfo makeDhcpInfo() {
         DhcpInfo info = new DhcpInfo();
         info.ipAddress = convertToInt(ipAddress);
-        for (RouteInfo route : mRoutes) {
+        for (android.klinkernet.RouteInfo route : mRoutes) {
             if (route.isDefaultRoute()) {
                 info.gateway = convertToInt(route.getGateway().getHostAddress());
                 break;
@@ -94,7 +95,7 @@ public class DhcpInfoInternal {
         return info;
     }
 
-    public LinkAddress makeLinkAddress() {
+    public android.klinkernet.LinkAddress makeLinkAddress() {
         if (TextUtils.isEmpty(ipAddress)) {
             Log.e(TAG, "makeLinkAddress with empty ipAddress");
             return null;
@@ -102,10 +103,10 @@ public class DhcpInfoInternal {
         return new LinkAddress(NetworkUtilsHelper.numericToInetAddress(ipAddress), prefixLength);
     }
 
-    public LinkProperties makeLinkProperties() {
-        LinkProperties p = new LinkProperties();
+    public android.klinkernet.LinkProperties makeLinkProperties() {
+        android.klinkernet.LinkProperties p = new LinkProperties();
         p.addLinkAddress(makeLinkAddress());
-        for (RouteInfo route : mRoutes) {
+        for (android.klinkernet.RouteInfo route : mRoutes) {
             p.addRoute(route);
         }
         //if empty, connectivity configures default DNS
@@ -138,7 +139,7 @@ public class DhcpInfoInternal {
         }
 
         if (mRoutes.size() == 0) {
-            for (RouteInfo route : orig.getRoutes()) {
+            for (android.klinkernet.RouteInfo route : orig.getRoutes()) {
                 addRoute(route);
             }
         }

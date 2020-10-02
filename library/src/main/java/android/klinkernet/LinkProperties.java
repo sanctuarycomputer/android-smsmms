@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package android.net;
+package android.klinkernet;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -52,9 +52,9 @@ import java.util.Collections;
 public class LinkProperties implements Parcelable {
 
     String mIfaceName;
-    private Collection<LinkAddress> mLinkAddresses = new ArrayList<LinkAddress>();
+    private Collection<android.klinkernet.LinkAddress> mLinkAddresses = new ArrayList<android.klinkernet.LinkAddress>();
     private Collection<InetAddress> mDnses = new ArrayList<InetAddress>();
-    private Collection<RouteInfo> mRoutes = new ArrayList<RouteInfo>();
+    private Collection<android.klinkernet.RouteInfo> mRoutes = new ArrayList<android.klinkernet.RouteInfo>();
     private ProxyProperties mHttpProxy;
 
     public static class CompareResult<T> {
@@ -80,9 +80,9 @@ public class LinkProperties implements Parcelable {
     public LinkProperties(LinkProperties source) {
         if (source != null) {
             mIfaceName = source.getInterfaceName();
-            for (LinkAddress l : source.getLinkAddresses()) mLinkAddresses.add(l);
+            for (android.klinkernet.LinkAddress l : source.getLinkAddresses()) mLinkAddresses.add(l);
             for (InetAddress i : source.getDnses()) mDnses.add(i);
-            for (RouteInfo r : source.getRoutes()) mRoutes.add(r);
+            for (android.klinkernet.RouteInfo r : source.getRoutes()) mRoutes.add(r);
             mHttpProxy = (source.getHttpProxy() == null) ?
                     null : new ProxyProperties(source.getHttpProxy());
         }
@@ -98,17 +98,17 @@ public class LinkProperties implements Parcelable {
 
     public Collection<InetAddress> getAddresses() {
         Collection<InetAddress> addresses = new ArrayList<InetAddress>();
-        for (LinkAddress linkAddress : mLinkAddresses) {
+        for (android.klinkernet.LinkAddress linkAddress : mLinkAddresses) {
             addresses.add(linkAddress.getAddress());
         }
         return Collections.unmodifiableCollection(addresses);
     }
 
-    public void addLinkAddress(LinkAddress address) {
+    public void addLinkAddress(android.klinkernet.LinkAddress address) {
         if (address != null) mLinkAddresses.add(address);
     }
 
-    public Collection<LinkAddress> getLinkAddresses() {
+    public Collection<android.klinkernet.LinkAddress> getLinkAddresses() {
         return Collections.unmodifiableCollection(mLinkAddresses);
     }
 
@@ -120,11 +120,11 @@ public class LinkProperties implements Parcelable {
         return Collections.unmodifiableCollection(mDnses);
     }
 
-    public void addRoute(RouteInfo route) {
+    public void addRoute(android.klinkernet.RouteInfo route) {
         if (route != null) mRoutes.add(route);
     }
 
-    public Collection<RouteInfo> getRoutes() {
+    public Collection<android.klinkernet.RouteInfo> getRoutes() {
         return Collections.unmodifiableCollection(mRoutes);
     }
 
@@ -158,7 +158,7 @@ public class LinkProperties implements Parcelable {
         String ifaceName = (mIfaceName == null ? "" : "InterfaceName: " + mIfaceName + " ");
 
         String linkAddresses = "LinkAddresses: [";
-        for (LinkAddress addr : mLinkAddresses) linkAddresses += addr.toString() + ",";
+        for (android.klinkernet.LinkAddress addr : mLinkAddresses) linkAddresses += addr.toString() + ",";
         linkAddresses += "] ";
 
         String dns = "DnsAddresses: [";
@@ -166,7 +166,7 @@ public class LinkProperties implements Parcelable {
         dns += "] ";
 
         String routes = "Routes: [";
-        for (RouteInfo route : mRoutes) routes += route.toString() + ",";
+        for (android.klinkernet.RouteInfo route : mRoutes) routes += route.toString() + ",";
         routes += "] ";
         String proxy = (mHttpProxy == null ? "" : "HttpProxy: " + mHttpProxy.toString() + " ");
 
@@ -215,7 +215,7 @@ public class LinkProperties implements Parcelable {
      * @return {@code true} if both are identical, {@code false} otherwise.
      */
     public boolean isIdenticalRoutes(LinkProperties target) {
-        Collection<RouteInfo> targetRoutes = target.getRoutes();
+        Collection<android.klinkernet.RouteInfo> targetRoutes = target.getRoutes();
         return (mRoutes.size() == targetRoutes.size()) ?
                 mRoutes.containsAll(targetRoutes) : false;
     }
@@ -269,7 +269,7 @@ public class LinkProperties implements Parcelable {
      * @param target is a LinkProperties with the new list of addresses
      * @return the removed and added lists.
      */
-    public CompareResult<LinkAddress> compareAddresses(LinkProperties target) {
+    public CompareResult<android.klinkernet.LinkAddress> compareAddresses(LinkProperties target) {
         /*
          * Duplicate the LinkAddresses into removed, we will be removing
          * address which are common between mLinkAddresses and target
@@ -277,11 +277,11 @@ public class LinkProperties implements Parcelable {
          * are in target but not in mLinkAddresses are placed in the
          * addedAddresses.
          */
-        CompareResult<LinkAddress> result = new CompareResult<LinkAddress>();
-        result.removed = new ArrayList<LinkAddress>(mLinkAddresses);
+        CompareResult<android.klinkernet.LinkAddress> result = new CompareResult<android.klinkernet.LinkAddress>();
+        result.removed = new ArrayList<android.klinkernet.LinkAddress>(mLinkAddresses);
         result.added.clear();
         if (target != null) {
-            for (LinkAddress newAddress : target.getLinkAddresses()) {
+            for (android.klinkernet.LinkAddress newAddress : target.getLinkAddresses()) {
                 if (!result.removed.remove(newAddress)) {
                     result.added.add(newAddress);
                 }
@@ -330,19 +330,19 @@ public class LinkProperties implements Parcelable {
      * @param target is a LinkProperties with the new list of routes
      * @return the removed and added lists.
      */
-    public CompareResult<RouteInfo> compareRoutes(LinkProperties target) {
+    public CompareResult<android.klinkernet.RouteInfo> compareRoutes(LinkProperties target) {
         /*
          * Duplicate the RouteInfos into removed, we will be removing
          * routes which are common between mDnses and target
          * leaving the routes that are different. And route address which
          * are in target but not in mRoutes are placed in added.
          */
-        CompareResult<RouteInfo> result = new CompareResult<RouteInfo>();
+        CompareResult<android.klinkernet.RouteInfo> result = new CompareResult<android.klinkernet.RouteInfo>();
 
-        result.removed = new ArrayList<RouteInfo>(mRoutes);
+        result.removed = new ArrayList<android.klinkernet.RouteInfo>(mRoutes);
         result.added.clear();
         if (target != null) {
-            for (RouteInfo r : target.getRoutes()) {
+            for (android.klinkernet.RouteInfo r : target.getRoutes()) {
                 if (!result.removed.remove(r)) {
                     result.added.add(r);
                 }
@@ -374,7 +374,7 @@ public class LinkProperties implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(getInterfaceName());
         dest.writeInt(mLinkAddresses.size());
-        for (LinkAddress linkAddress : mLinkAddresses) {
+        for (android.klinkernet.LinkAddress linkAddress : mLinkAddresses) {
             dest.writeParcelable(linkAddress, flags);
         }
 
@@ -384,7 +384,7 @@ public class LinkProperties implements Parcelable {
         }
 
         dest.writeInt(mRoutes.size());
-        for (RouteInfo route : mRoutes) {
+        for (android.klinkernet.RouteInfo route : mRoutes) {
             dest.writeParcelable(route, flags);
         }
 

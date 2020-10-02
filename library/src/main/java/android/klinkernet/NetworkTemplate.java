@@ -14,20 +14,22 @@
  * limitations under the License.
  */
 
-package android.net;
+package android.klinkernet;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.android.internal.annotations.VisibleForTesting;
 import com.android.internal.util.Objects;
 
 import static android.net.ConnectivityManager.*;
-import static android.net.NetworkIdentity.COMBINE_SUBTYPE_ENABLED;
-import static android.net.NetworkIdentity.scrubSubscriberId;
+import static android.klinkernet.NetworkIdentity.COMBINE_SUBTYPE_ENABLED;
+import static android.klinkernet.NetworkIdentity.scrubSubscriberId;
 import static com.android.internal.util.ArrayUtils.contains;
 
 /**
- * Template definition used to generically match {@link NetworkIdentity},
+ * Template definition used to generically match {@link android.klinkernet.NetworkIdentity},
  * usually when collecting statistics.
  *
  * @hide
@@ -300,9 +302,9 @@ public class NetworkTemplate implements Parcelable {
     }
 
     /**
-     * Test if given {@link NetworkIdentity} matches this template.
+     * Test if given {@link android.klinkernet.NetworkIdentity} matches this template.
      */
-    public boolean matches(NetworkIdentity ident) {
+    public boolean matches(android.klinkernet.NetworkIdentity ident) {
         switch (mMatchRule) {
             case MATCH_MOBILE_ALL:
                 return matchesMobile(ident);
@@ -326,7 +328,7 @@ public class NetworkTemplate implements Parcelable {
     /**
      * Check if mobile network with matching IMSI.
      */
-    private boolean matchesMobile(NetworkIdentity ident) {
+    private boolean matchesMobile(android.klinkernet.NetworkIdentity ident) {
         if (ident.mType == TYPE_WIMAX) {
             // TODO: consider matching against WiMAX subscriber identity
             return true;
@@ -339,7 +341,7 @@ public class NetworkTemplate implements Parcelable {
     /**
      * Check if mobile network classified 3G or lower with matching IMSI.
      */
-    private boolean matchesMobile3gLower(NetworkIdentity ident) {
+    private boolean matchesMobile3gLower(android.klinkernet.NetworkIdentity ident) {
         ensureSubtypeAvailable();
         if (ident.mType == TYPE_WIMAX) {
             return false;
@@ -357,7 +359,7 @@ public class NetworkTemplate implements Parcelable {
     /**
      * Check if mobile network classified 4G with matching IMSI.
      */
-    private boolean matchesMobile4g(NetworkIdentity ident) {
+    private boolean matchesMobile4g(android.klinkernet.NetworkIdentity ident) {
         ensureSubtypeAvailable();
         if (ident.mType == TYPE_WIMAX) {
             // TODO: consider matching against WiMAX subscriber identity
@@ -374,7 +376,7 @@ public class NetworkTemplate implements Parcelable {
     /**
      * Check if matches Wi-Fi network template.
      */
-    private boolean matchesWifi(NetworkIdentity ident) {
+    private boolean matchesWifi(android.klinkernet.NetworkIdentity ident) {
         switch (ident.mType) {
             case TYPE_WIFI:
                 return Objects.equal(mNetworkId, ident.mNetworkId);
@@ -386,14 +388,14 @@ public class NetworkTemplate implements Parcelable {
     /**
      * Check if matches Ethernet network template.
      */
-    private boolean matchesEthernet(NetworkIdentity ident) {
+    private boolean matchesEthernet(android.klinkernet.NetworkIdentity ident) {
         if (ident.mType == TYPE_ETHERNET) {
             return true;
         }
         return false;
     }
 
-    private boolean matchesMobileWildcard(NetworkIdentity ident) {
+    private boolean matchesMobileWildcard(android.klinkernet.NetworkIdentity ident) {
         if (ident.mType == TYPE_WIMAX) {
             return true;
         } else {

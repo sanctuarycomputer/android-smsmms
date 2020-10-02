@@ -2,7 +2,7 @@
  * This file is auto-generated.  DO NOT MODIFY.
  * Original file: frameworks/base/core/java/android/net/IConnectivityManager.aidl
  */
-package android.net;
+package android.klinkernet;
 /**
  * Interface that answers queries about, and allows changing, the
  * state of network connectivity.
@@ -15,7 +15,7 @@ public interface IConnectivityManager extends android.os.IInterface {
     /**
      * Local-side IPC implementation stub class.
      */
-    public static abstract class Stub extends android.os.Binder implements android.net.IConnectivityManager {
+    public static abstract class Stub extends android.os.Binder implements IConnectivityManager {
         private static final java.lang.String DESCRIPTOR = "android.net.IConnectivityManager";
 
         /**
@@ -29,15 +29,15 @@ public interface IConnectivityManager extends android.os.IInterface {
          * Cast an IBinder object into an android.net.IConnectivityManager interface,
          * generating a proxy if needed.
          */
-        public static android.net.IConnectivityManager asInterface(android.os.IBinder obj) {
+        public static IConnectivityManager asInterface(android.os.IBinder obj) {
             if ((obj == null)) {
                 return null;
             }
             android.os.IInterface iin = obj.queryLocalInterface(DESCRIPTOR);
-            if (((iin != null) && (iin instanceof android.net.IConnectivityManager))) {
-                return ((android.net.IConnectivityManager) iin);
+            if (((iin != null) && (iin instanceof IConnectivityManager))) {
+                return ((IConnectivityManager) iin);
             }
-            return new android.net.IConnectivityManager.Stub.Proxy(obj);
+            return new IConnectivityManager.Stub.Proxy(obj);
         }
 
         @Override
@@ -125,7 +125,7 @@ public interface IConnectivityManager extends android.os.IInterface {
                 }
                 case TRANSACTION_getActiveLinkProperties: {
                     data.enforceInterface(DESCRIPTOR);
-                    android.net.LinkProperties _result = this.getActiveLinkProperties();
+                    LinkProperties _result = this.getActiveLinkProperties();
                     reply.writeNoException();
                     if ((_result != null)) {
                         reply.writeInt(1);
@@ -139,7 +139,7 @@ public interface IConnectivityManager extends android.os.IInterface {
                     data.enforceInterface(DESCRIPTOR);
                     int _arg0;
                     _arg0 = data.readInt();
-                    android.net.LinkProperties _result = this.getLinkProperties(_arg0);
+                    LinkProperties _result = this.getLinkProperties(_arg0);
                     reply.writeNoException();
                     if ((_result != null)) {
                         reply.writeInt(1);
@@ -151,14 +151,14 @@ public interface IConnectivityManager extends android.os.IInterface {
                 }
                 case TRANSACTION_getAllNetworkState: {
                     data.enforceInterface(DESCRIPTOR);
-                    android.net.NetworkState[] _result = this.getAllNetworkState();
+                    NetworkState[] _result = this.getAllNetworkState();
                     reply.writeNoException();
                     reply.writeTypedArray(_result, android.os.Parcelable.PARCELABLE_WRITE_RETURN_VALUE);
                     return true;
                 }
                 case TRANSACTION_getActiveNetworkQuotaInfo: {
                     data.enforceInterface(DESCRIPTOR);
-                    android.net.NetworkQuotaInfo _result = this.getActiveNetworkQuotaInfo();
+                    NetworkQuotaInfo _result = this.getActiveNetworkQuotaInfo();
                     reply.writeNoException();
                     if ((_result != null)) {
                         reply.writeInt(1);
@@ -378,7 +378,7 @@ public interface IConnectivityManager extends android.os.IInterface {
                 }
                 case TRANSACTION_getGlobalProxy: {
                     data.enforceInterface(DESCRIPTOR);
-                    android.net.ProxyProperties _result = this.getGlobalProxy();
+                    ProxyProperties _result = this.getGlobalProxy();
                     reply.writeNoException();
                     if ((_result != null)) {
                         reply.writeInt(1);
@@ -390,9 +390,9 @@ public interface IConnectivityManager extends android.os.IInterface {
                 }
                 case TRANSACTION_setGlobalProxy: {
                     data.enforceInterface(DESCRIPTOR);
-                    android.net.ProxyProperties _arg0;
+                    ProxyProperties _arg0;
                     if ((0 != data.readInt())) {
-                        _arg0 = android.net.ProxyProperties.CREATOR.createFromParcel(data);
+                        _arg0 = ProxyProperties.CREATOR.createFromParcel(data);
                     } else {
                         _arg0 = null;
                     }
@@ -402,7 +402,7 @@ public interface IConnectivityManager extends android.os.IInterface {
                 }
                 case TRANSACTION_getProxy: {
                     data.enforceInterface(DESCRIPTOR);
-                    android.net.ProxyProperties _result = this.getProxy();
+                    ProxyProperties _result = this.getProxy();
                     reply.writeNoException();
                     if ((_result != null)) {
                         reply.writeInt(1);
@@ -511,7 +511,7 @@ public interface IConnectivityManager extends android.os.IInterface {
             return super.onTransact(code, data, reply, flags);
         }
 
-        private static class Proxy implements android.net.IConnectivityManager {
+        private static class Proxy implements IConnectivityManager {
             private android.os.IBinder mRemote;
 
             Proxy(android.os.IBinder remote) {
@@ -656,16 +656,16 @@ public interface IConnectivityManager extends android.os.IInterface {
             }
 
             @Override
-            public android.net.LinkProperties getActiveLinkProperties() throws android.os.RemoteException {
+            public LinkProperties getActiveLinkProperties() throws android.os.RemoteException {
                 android.os.Parcel _data = android.os.Parcel.obtain();
                 android.os.Parcel _reply = android.os.Parcel.obtain();
-                android.net.LinkProperties _result;
+                LinkProperties _result;
                 try {
                     _data.writeInterfaceToken(DESCRIPTOR);
                     mRemote.transact(Stub.TRANSACTION_getActiveLinkProperties, _data, _reply, 0);
                     _reply.readException();
                     if ((0 != _reply.readInt())) {
-                        _result = android.net.LinkProperties.CREATOR.createFromParcel(_reply);
+                        _result = LinkProperties.CREATOR.createFromParcel(_reply);
                     } else {
                         _result = null;
                     }
@@ -677,17 +677,17 @@ public interface IConnectivityManager extends android.os.IInterface {
             }
 
             @Override
-            public android.net.LinkProperties getLinkProperties(int networkType) throws android.os.RemoteException {
+            public LinkProperties getLinkProperties(int networkType) throws android.os.RemoteException {
                 android.os.Parcel _data = android.os.Parcel.obtain();
                 android.os.Parcel _reply = android.os.Parcel.obtain();
-                android.net.LinkProperties _result;
+                LinkProperties _result;
                 try {
                     _data.writeInterfaceToken(DESCRIPTOR);
                     _data.writeInt(networkType);
                     mRemote.transact(Stub.TRANSACTION_getLinkProperties, _data, _reply, 0);
                     _reply.readException();
                     if ((0 != _reply.readInt())) {
-                        _result = android.net.LinkProperties.CREATOR.createFromParcel(_reply);
+                        _result = LinkProperties.CREATOR.createFromParcel(_reply);
                     } else {
                         _result = null;
                     }
@@ -699,15 +699,15 @@ public interface IConnectivityManager extends android.os.IInterface {
             }
 
             @Override
-            public android.net.NetworkState[] getAllNetworkState() throws android.os.RemoteException {
+            public NetworkState[] getAllNetworkState() throws android.os.RemoteException {
                 android.os.Parcel _data = android.os.Parcel.obtain();
                 android.os.Parcel _reply = android.os.Parcel.obtain();
-                android.net.NetworkState[] _result;
+                NetworkState[] _result;
                 try {
                     _data.writeInterfaceToken(DESCRIPTOR);
                     mRemote.transact(Stub.TRANSACTION_getAllNetworkState, _data, _reply, 0);
                     _reply.readException();
-                    _result = _reply.createTypedArray(android.net.NetworkState.CREATOR);
+                    _result = _reply.createTypedArray(NetworkState.CREATOR);
                 } finally {
                     _reply.recycle();
                     _data.recycle();
@@ -716,16 +716,16 @@ public interface IConnectivityManager extends android.os.IInterface {
             }
 
             @Override
-            public android.net.NetworkQuotaInfo getActiveNetworkQuotaInfo() throws android.os.RemoteException {
+            public NetworkQuotaInfo getActiveNetworkQuotaInfo() throws android.os.RemoteException {
                 android.os.Parcel _data = android.os.Parcel.obtain();
                 android.os.Parcel _reply = android.os.Parcel.obtain();
-                android.net.NetworkQuotaInfo _result;
+                NetworkQuotaInfo _result;
                 try {
                     _data.writeInterfaceToken(DESCRIPTOR);
                     mRemote.transact(Stub.TRANSACTION_getActiveNetworkQuotaInfo, _data, _reply, 0);
                     _reply.readException();
                     if ((0 != _reply.readInt())) {
-                        _result = android.net.NetworkQuotaInfo.CREATOR.createFromParcel(_reply);
+                        _result = NetworkQuotaInfo.CREATOR.createFromParcel(_reply);
                     } else {
                         _result = null;
                     }
@@ -1162,16 +1162,16 @@ public interface IConnectivityManager extends android.os.IInterface {
             }
 
             @Override
-            public android.net.ProxyProperties getGlobalProxy() throws android.os.RemoteException {
+            public ProxyProperties getGlobalProxy() throws android.os.RemoteException {
                 android.os.Parcel _data = android.os.Parcel.obtain();
                 android.os.Parcel _reply = android.os.Parcel.obtain();
-                android.net.ProxyProperties _result;
+                ProxyProperties _result;
                 try {
                     _data.writeInterfaceToken(DESCRIPTOR);
                     mRemote.transact(Stub.TRANSACTION_getGlobalProxy, _data, _reply, 0);
                     _reply.readException();
                     if ((0 != _reply.readInt())) {
-                        _result = android.net.ProxyProperties.CREATOR.createFromParcel(_reply);
+                        _result = ProxyProperties.CREATOR.createFromParcel(_reply);
                     } else {
                         _result = null;
                     }
@@ -1183,7 +1183,7 @@ public interface IConnectivityManager extends android.os.IInterface {
             }
 
             @Override
-            public void setGlobalProxy(android.net.ProxyProperties p) throws android.os.RemoteException {
+            public void setGlobalProxy(ProxyProperties p) throws android.os.RemoteException {
                 android.os.Parcel _data = android.os.Parcel.obtain();
                 android.os.Parcel _reply = android.os.Parcel.obtain();
                 try {
@@ -1203,16 +1203,16 @@ public interface IConnectivityManager extends android.os.IInterface {
             }
 
             @Override
-            public android.net.ProxyProperties getProxy() throws android.os.RemoteException {
+            public ProxyProperties getProxy() throws android.os.RemoteException {
                 android.os.Parcel _data = android.os.Parcel.obtain();
                 android.os.Parcel _reply = android.os.Parcel.obtain();
-                android.net.ProxyProperties _result;
+                ProxyProperties _result;
                 try {
                     _data.writeInterfaceToken(DESCRIPTOR);
                     mRemote.transact(Stub.TRANSACTION_getProxy, _data, _reply, 0);
                     _reply.readException();
                     if ((0 != _reply.readInt())) {
-                        _result = android.net.ProxyProperties.CREATOR.createFromParcel(_reply);
+                        _result = ProxyProperties.CREATOR.createFromParcel(_reply);
                     } else {
                         _result = null;
                     }
@@ -1449,13 +1449,13 @@ public interface IConnectivityManager extends android.os.IInterface {
 
     public boolean isNetworkSupported(int networkType) throws android.os.RemoteException;
 
-    public android.net.LinkProperties getActiveLinkProperties() throws android.os.RemoteException;
+    public LinkProperties getActiveLinkProperties() throws android.os.RemoteException;
 
-    public android.net.LinkProperties getLinkProperties(int networkType) throws android.os.RemoteException;
+    public LinkProperties getLinkProperties(int networkType) throws android.os.RemoteException;
 
-    public android.net.NetworkState[] getAllNetworkState() throws android.os.RemoteException;
+    public NetworkState[] getAllNetworkState() throws android.os.RemoteException;
 
-    public android.net.NetworkQuotaInfo getActiveNetworkQuotaInfo() throws android.os.RemoteException;
+    public NetworkQuotaInfo getActiveNetworkQuotaInfo() throws android.os.RemoteException;
 
     public boolean isActiveNetworkMetered() throws android.os.RemoteException;
 
@@ -1512,11 +1512,11 @@ public interface IConnectivityManager extends android.os.IInterface {
 
     public void reportInetCondition(int networkType, int percentage) throws android.os.RemoteException;
 
-    public android.net.ProxyProperties getGlobalProxy() throws android.os.RemoteException;
+    public ProxyProperties getGlobalProxy() throws android.os.RemoteException;
 
-    public void setGlobalProxy(android.net.ProxyProperties p) throws android.os.RemoteException;
+    public void setGlobalProxy(ProxyProperties p) throws android.os.RemoteException;
 
-    public android.net.ProxyProperties getProxy() throws android.os.RemoteException;
+    public ProxyProperties getProxy() throws android.os.RemoteException;
 
     public void setDataDependency(int networkType, boolean met) throws android.os.RemoteException;
 

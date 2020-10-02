@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package android.net;
+package android.klinkernet;
 
 import android.content.Context;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;

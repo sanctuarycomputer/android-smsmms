@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package android.net;
+package android.klinkernet;
 
 import android.os.Parcel;
 import android.os.Parcelable;
