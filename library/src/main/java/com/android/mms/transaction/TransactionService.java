@@ -674,8 +674,13 @@ public class TransactionService extends Service implements Observer {
             }
         }
 
-        int result = mConnMgr.startUsingNetworkFeature(
-                ConnectivityManager.TYPE_MOBILE, "enableMMS");
+        int result = -1;
+        try {
+            java.lang.reflect.Method method = mConnMgr.getClass().getMethod("startUsingNetworkFeature", int.class, String.class);
+            result = (int) method.invoke(ConnectivityManager.TYPE_MOBILE, "enableMMS");
+        } catch (Exception e) {
+            Log.v(TAG, "failed to invoke mConnMgr.startUsingNetworkFeature: enableMMS", e);
+        }
 
         if (Log.isLoggable(LogTag.TRANSACTION, Log.VERBOSE)) {
             Log.v(TAG, "beginMmsConnectivity: result=" + result);
@@ -700,9 +705,12 @@ public class TransactionService extends Service implements Observer {
             // cancel timer for renewal of lease
             mServiceHandler.removeMessages(EVENT_CONTINUE_MMS_CONNECTIVITY);
             if (mConnMgr != null && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                mConnMgr.stopUsingNetworkFeature(
-                        ConnectivityManager.TYPE_MOBILE,
-                        "enableMMS");
+                try {
+                    java.lang.reflect.Method method = mConnMgr.getClass().getMethod("stopUsingNetworkFeature", int.class, String.class);
+                    method.invoke(ConnectivityManager.TYPE_MOBILE, "enableMMS");
+                } catch (Exception e) {
+                    Log.v(TAG, "failed to invoke mConnMgr.stopUsingNetworkFeature: enableMMS", e);
+                }
             }
         } finally {
             releaseWakeLock();
