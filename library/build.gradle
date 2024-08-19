@@ -1,16 +1,19 @@
 apply plugin: 'com.android.library'
 
-dependencies {
-    implementation files('../../shared/framework_all.jar')
-    implementation 'com.klinkerapps:logger:1.0.3'
-    implementation 'com.squareup.okhttp:okhttp:2.5.0'
-    implementation 'com.squareup.okhttp:okhttp-urlconnection:2.5.0'
-}
-
 android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    flavorDimensions "version"
+    productFlavors {
+      "lp2" {
+        dimension "version"
+      }
+      "lp3" {
+        dimension "version"
+      }
     }
 
     compileSdkVersion 25
@@ -26,8 +29,17 @@ android {
     useLibrary 'org.apache.http.legacy'
 }
 
+dependencies {
+    lp2Implementation files('../../shared/framework_all.jar')
+    lp3Implementation files('../../shared/lp3_framework_all.jar')
+    implementation 'com.klinkerapps:logger:1.0.3'
+    implementation 'com.squareup.okhttp:okhttp:2.5.0'
+    implementation 'com.squareup.okhttp:okhttp-urlconnection:2.5.0'
+}
+
 gradle.projectsEvaluated {
-    tasks.withType(JavaCompile) {
-        options.compilerArgs.add("-Xbootclasspath/p:${rootDir}/shared/framework_all.jar")
+    tasks.withType(JavaCompile) { task ->
+        def isLp3 = task.toString().indexOf("Lp3") != -1;
+        options.compilerArgs.add("-Xbootclasspath/p:${rootDir}/shared/${isLp3 ? 'lp3_' : ''}framework_all.jar")
     }
 }
