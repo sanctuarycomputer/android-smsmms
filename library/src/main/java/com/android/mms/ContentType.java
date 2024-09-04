@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.google.android.mms;
+package com.android.mms;
 
 import java.util.ArrayList;
 

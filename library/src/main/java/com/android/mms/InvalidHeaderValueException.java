@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.google.android.mms;
+package com.android.mms;
 
 /**
  * Thrown when an invalid header value was set.

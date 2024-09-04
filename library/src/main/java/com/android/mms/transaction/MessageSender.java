@@ -16,7 +16,7 @@
 
 package com.android.mms.transaction;
 
-import com.google.android.mms.MmsException;
+import com.android.mms.MmsException;
 
 public interface MessageSender {
     public static final String RECIPIENTS_SEPARATOR = ";";
@@ -27,7 +27,7 @@ public interface MessageSender {
      *
      * @return True if the message was sent through MMS or false if it was
      *         sent through SMS.
-     * @throws com.google.android.mms.MmsException Error occurred while sending the message.
+     * @throws MmsException Error occurred while sending the message.
      */
     boolean sendMessage(long token) throws MmsException;
 }

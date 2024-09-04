@@ -17,16 +17,13 @@
 package com.android.mms.transaction;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 
 import com.android.mms.util.SendingProgressTokenManager;
-import com.google.android.mms.MmsException;
+import com.android.mms.MmsException;
 import com.klinker.android.send_message.Utils;
 
 /**
@@ -116,7 +113,7 @@ public abstract class Transaction extends Observable {
      *         If an HTTP error code is returned, an IOException will be thrown.
      * @throws java.io.IOException if any error occurred on network interface or
      *         an HTTP error code(>=400) returned from the server.
-     * @throws com.google.android.mms.MmsException if pdu is null.
+     * @throws MmsException if pdu is null.
      */
     protected byte[] sendPdu(byte[] pdu) throws IOException, MmsException {
         return sendPdu(SendingProgressTokenManager.NO_TOKEN, pdu,
@@ -132,7 +129,7 @@ public abstract class Transaction extends Observable {
      *         If an HTTP error code is returned, an IOException will be thrown.
      * @throws java.io.IOException if any error occurred on network interface or
      *         an HTTP error code(>=400) returned from the server.
-     * @throws com.google.android.mms.MmsException if pdu is null.
+     * @throws MmsException if pdu is null.
      */
     protected byte[] sendPdu(byte[] pdu, String mmscUrl) throws IOException, MmsException {
         return sendPdu(SendingProgressTokenManager.NO_TOKEN, pdu, mmscUrl);
@@ -147,7 +144,7 @@ public abstract class Transaction extends Observable {
      *         If an HTTP error code is returned, an IOException will be thrown.
      * @throws java.io.IOException if any error occurred on network interface or
      *         an HTTP error code(>=400) returned from the server.
-     * @throws com.google.android.mms.MmsException if pdu is null.
+     * @throws MmsException if pdu is null.
      */
     protected byte[] sendPdu(long token, byte[] pdu) throws IOException, MmsException {
         return sendPdu(token, pdu, mTransactionSettings.getMmscUrl());
@@ -163,7 +160,7 @@ public abstract class Transaction extends Observable {
      *         If an HTTP error code is returned, an IOException will be thrown.
      * @throws java.io.IOException if any error occurred on network interface or
      *         an HTTP error code(>=400) returned from the server.
-     * @throws com.google.android.mms.MmsException if pdu is null.
+     * @throws MmsException if pdu is null.
      */
     protected byte[] sendPdu(final long token, final byte[] pdu,
                              final String mmscUrl) throws IOException, MmsException {

@@ -24,7 +24,7 @@ import android.provider.Telephony;
 import android.util.Log;
 
 import com.android.mms.transaction.NotificationTransaction;
-import com.google.android.mms.MmsException;
+import com.android.mms.MmsException;
 import com.google.android.mms.pdu_alt.PduParser;
 import com.google.android.mms.pdu_alt.PduPersister;
 import com.google.android.mms.pdu_alt.RetrieveConf;
