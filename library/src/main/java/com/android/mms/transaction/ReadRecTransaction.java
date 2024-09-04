@@ -24,7 +24,7 @@ import android.provider.Telephony.Mms.Sent;
 import com.klinker.android.logger.Log;
 
 import com.android.mms.logs.LogTag;
-import com.google.android.mms.MmsException;
+import com.android.mms.MmsException;
 import com.google.android.mms.pdu_alt.EncodedStringValue;
 import com.google.android.mms.pdu_alt.PduComposer;
 import com.google.android.mms.pdu_alt.PduPersister;

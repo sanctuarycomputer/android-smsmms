@@ -32,8 +32,8 @@ import com.android.mms.transaction.DownloadManager;
 import com.android.mms.transaction.HttpUtils;
 import com.android.mms.transaction.TransactionSettings;
 import com.android.mms.util.SendingProgressTokenManager;
-import com.google.android.mms.InvalidHeaderValueException;
-import com.google.android.mms.MmsException;
+import com.android.mms.InvalidHeaderValueException;
+import com.android.mms.MmsException;
 import com.google.android.mms.pdu_alt.EncodedStringValue;
 import com.google.android.mms.pdu_alt.GenericPdu;
 import com.google.android.mms.pdu_alt.NotificationInd;
@@ -197,7 +197,7 @@ public abstract class MmsReceivedReceiver extends BroadcastReceiver {
          *         If an HTTP error code is returned, an IOException will be thrown.
          * @throws java.io.IOException if any error occurred on network interface or
          *         an HTTP error code(>=400) returned from the server.
-         * @throws com.google.android.mms.MmsException if pdu is null.
+         * @throws MmsException if pdu is null.
          */
         byte[] sendPdu(byte[] pdu, String mmscUrl) throws IOException, MmsException {
             return sendPdu(SendingProgressTokenManager.NO_TOKEN, pdu, mmscUrl);
@@ -211,7 +211,7 @@ public abstract class MmsReceivedReceiver extends BroadcastReceiver {
          *         If an HTTP error code is returned, an IOException will be thrown.
          * @throws java.io.IOException if any error occurred on network interface or
          *         an HTTP error code(>=400) returned from the server.
-         * @throws com.google.android.mms.MmsException if pdu is null.
+         * @throws MmsException if pdu is null.
          */
         byte[] sendPdu(byte[] pdu) throws IOException, MmsException {
             return sendPdu(SendingProgressTokenManager.NO_TOKEN, pdu,
@@ -228,7 +228,7 @@ public abstract class MmsReceivedReceiver extends BroadcastReceiver {
          *         If an HTTP error code is returned, an IOException will be thrown.
          * @throws java.io.IOException if any error occurred on network interface or
          *         an HTTP error code(>=400) returned from the server.
-         * @throws com.google.android.mms.MmsException if pdu is null.
+         * @throws MmsException if pdu is null.
          */
         private byte[] sendPdu(long token, byte[] pdu,
                        String mmscUrl) throws IOException, MmsException {

@@ -18,7 +18,7 @@ package com.google.android.mms.pdu_alt;
 
 import com.klinker.android.logger.Log;
 
-import com.google.android.mms.InvalidHeaderValueException;
+import com.android.mms.InvalidHeaderValueException;
 
 public class SendReq extends MultimediaMessagePdu {
     private static final String TAG = "SendReq";

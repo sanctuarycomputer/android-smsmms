@@ -32,7 +32,7 @@ import com.klinker.android.logger.Log;
 import com.android.mms.logs.LogTag;
 import com.android.mms.MmsConfig;
 import com.android.mms.util.DownloadManager;
-import com.google.android.mms.MmsException;
+import com.android.mms.MmsException;
 import com.google.android.mms.pdu_alt.AcknowledgeInd;
 import com.google.android.mms.pdu_alt.EncodedStringValue;
 import com.google.android.mms.pdu_alt.PduComposer;

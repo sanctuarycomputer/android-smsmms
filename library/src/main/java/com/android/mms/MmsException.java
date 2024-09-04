@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.google.android.mms;
+package com.android.mms;
 
 /**
  * A generic exception that is thrown by the Mms client.
