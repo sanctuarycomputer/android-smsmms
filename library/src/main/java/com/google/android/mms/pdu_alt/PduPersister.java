@@ -39,15 +39,16 @@ import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
-import com.google.android.mms.ContentType;
-import com.google.android.mms.InvalidHeaderValueException;
-import com.google.android.mms.MmsException;
+import com.android.mms.ContentType;
+import com.android.mms.InvalidHeaderValueException;
+import com.android.mms.MmsException;
 import com.google.android.mms.util_alt.DownloadDrmHelper;
 import com.google.android.mms.util_alt.DrmConvertSession;
 import com.google.android.mms.util_alt.PduCache;
 import com.google.android.mms.util_alt.PduCacheEntry;
 import com.google.android.mms.util_alt.SqliteWrapper;
 import com.klinker.android.logger.Log;
+import com.klinker.android.send_message.Utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -1516,7 +1517,7 @@ public class PduPersister {
         if (excludeMyNumber && array.length == 1 && addressType == PduHeaders.TO) {
             return;
         }
-        String myNumber = excludeMyNumber ? mTelephonyManager.getLine1Number() : null;
+        String myNumber = excludeMyNumber ? Utils.getMyPhoneNumber(mContext) : null;
         for (EncodedStringValue v : array) {
             if (v != null) {
                 String number = v.getString();

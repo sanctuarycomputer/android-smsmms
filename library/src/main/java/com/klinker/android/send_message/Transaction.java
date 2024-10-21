@@ -30,7 +30,10 @@ import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.text.TextUtils;
 
+import com.android.mms.ContentType;
+import com.android.mms.InvalidHeaderValueException;
 import com.android.mms.MmsConfig;
+import com.android.mms.MmsException;
 import com.android.mms.service_alt.MmsNetworkManager;
 import com.android.mms.service_alt.MmsRequestManager;
 import com.android.mms.service_alt.SendRequest;

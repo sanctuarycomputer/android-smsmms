@@ -17,7 +17,7 @@
 package com.android.mms.transaction;
 
 import android.content.Context;
-import android.net.NetworkUtilsHelper;
+import android.klinkernet.NetworkUtilsHelper;
 import android.provider.Telephony;
 import android.text.TextUtils;
 import com.klinker.android.logger.Log;

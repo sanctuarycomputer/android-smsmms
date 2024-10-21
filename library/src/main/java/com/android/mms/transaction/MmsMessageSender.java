@@ -30,8 +30,8 @@ import com.klinker.android.logger.Log;
 
 import com.android.mms.logs.LogTag;
 import com.android.mms.util.SendingProgressTokenManager;
-import com.google.android.mms.InvalidHeaderValueException;
-import com.google.android.mms.MmsException;
+import com.android.mms.InvalidHeaderValueException;
+import com.android.mms.MmsException;
 import com.google.android.mms.pdu_alt.EncodedStringValue;
 import com.google.android.mms.pdu_alt.GenericPdu;
 import com.google.android.mms.pdu_alt.PduHeaders;
