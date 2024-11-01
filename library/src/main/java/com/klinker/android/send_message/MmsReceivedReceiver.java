@@ -57,7 +57,7 @@ import java.util.concurrent.Executors;
 import static com.google.android.mms.pdu_alt.PduHeaders.STATUS_RETRIEVED;
 
 public abstract class MmsReceivedReceiver extends BroadcastReceiver {
-    private static final String TAG = "MmsReceivedReceiver";
+    private static final String TAG = "CONAN MmsReceivedReceiver";
 
     public static final String MMS_RECEIVED = "com.klinker.android.messaging.MMS_RECEIVED";
     public static final String EXTRA_FILE_PATH = "file_path";

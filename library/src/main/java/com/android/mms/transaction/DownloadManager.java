@@ -18,7 +18,7 @@ import android.telephony.SmsManager;
 import android.text.TextUtils;
 
 import com.android.mms.MmsConfig;
-import com.klinker.android.logger.Log;
+import android.util.Log;
 import com.klinker.android.send_message.BroadcastUtils;
 import com.klinker.android.send_message.MmsReceivedReceiver;
 
@@ -32,7 +32,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * We should manage to call SMSManager.downloadMultimediaMessage().
  */
 public class DownloadManager {
-    private static final String TAG = "DownloadManager";
+    private static final String TAG = "Conan DownloadManager";
     private static DownloadManager ourInstance = new DownloadManager();
     private static final ConcurrentHashMap<String, MmsDownloadReceiver> mMap = new ConcurrentHashMap<>();
 
@@ -74,7 +74,7 @@ public class DownloadManager {
         download.putExtra(MmsReceivedReceiver.EXTRA_TRIGGER_PUSH, byPush);
         download.putExtra(MmsReceivedReceiver.EXTRA_URI, uri);
         final PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                context, 0, download, PendingIntent.FLAG_CANCEL_CURRENT);
+                context, 0, download, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         Bundle configOverrides = new Bundle();
         String httpParams = MmsConfig.getHttpParams();
@@ -82,9 +82,12 @@ public class DownloadManager {
             configOverrides.putString(SmsManager.MMS_CONFIG_HTTP_PARAMS, httpParams);
         }
 
+        Log.v(TAG, "about to call smsManager downloadMultimediaMessage");
         grantUriPermission(context, contentUri);
         SmsManager.getDefault().downloadMultimediaMessage(context,
                 location, contentUri, configOverrides, pendingIntent);
+
+        Log.v(TAG, "called smsManager downloadMultimediaMessage");
     }
 
     private void grantUriPermission(Context context, Uri contentUri) {
