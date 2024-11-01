@@ -213,16 +213,18 @@ public class Transaction {
         Log.v("send_transaction", "message text: " + text);
         Uri messageUri = null;
         int messageId = 0;
-        if (saveMessage) {
-            Log.v("send_transaction", "saving message");
-            // add signature to original text to be saved in database (does not strip unicode for saving though)
-            if (!settings.getSignature().equals("")) {
-                text += "\n" + settings.getSignature();
-            }
 
+        Log.v("send_transaction", "saving message");
+        // add signature to original text to be saved in database (does not strip unicode for saving though)
+        if (!settings.getSignature().equals("")) {
+            text += "\n" + settings.getSignature();
+        }
+
+        for (int i = 0; i < addresses.length; i++) {
+
+            Calendar cal = Calendar.getInstance();
             // save the message for each of the addresses
-            for (int i = 0; i < addresses.length; i++) {
-                Calendar cal = Calendar.getInstance();
+            if (saveMessage) {
                 ContentValues values = new ContentValues();
                 values.put("address", addresses[i]);
                 values.put("body", settings.getStripUnicode() ? StripAccents.stripAccents(text) : text);
@@ -247,118 +249,118 @@ public class Transaction {
                     messageId = query.getInt(0);
                     query.close();
                 }
+            }
 
-                Log.v("send_transaction", "message id: " + messageId);
+            Log.v("send_transaction", "message id: " + messageId);
 
-                // set up sent and delivered pending intents to be used with message request
-                Intent sentIntent;
-                if (explicitSentSmsReceiver == null) {
-                    sentIntent = new Intent(SMS_SENT);
-                    BroadcastUtils.addClassName(context, sentIntent, SMS_SENT);
-                } else {
-                    sentIntent = explicitSentSmsReceiver;
+            // set up sent and delivered pending intents to be used with message request
+            Intent sentIntent;
+            if (explicitSentSmsReceiver == null) {
+                sentIntent = new Intent(SMS_SENT);
+                BroadcastUtils.addClassName(context, sentIntent, SMS_SENT);
+            } else {
+                sentIntent = explicitSentSmsReceiver;
+            }
+
+            sentIntent.putExtra("message_uri", messageUri == null ? "" : messageUri.toString());
+            sentIntent.putExtra(SENT_SMS_BUNDLE, sentMessageParcelable);
+            PendingIntent sentPI = PendingIntent.getBroadcast(
+                    context, messageId, sentIntent, PendingIntent.FLAG_IMMUTABLE);
+
+            Intent deliveredIntent;
+            if (explicitDeliveredSmsReceiver == null) {
+                deliveredIntent = new Intent(SMS_DELIVERED);
+                BroadcastUtils.addClassName(context, deliveredIntent, SMS_DELIVERED);
+            } else {
+                deliveredIntent = explicitDeliveredSmsReceiver;
+            }
+
+            deliveredIntent.putExtra("message_uri", messageUri == null ? "" : messageUri.toString());
+            deliveredIntent.putExtra(DELIVERED_SMS_BUNDLE, deliveredParcelable);
+            PendingIntent deliveredPI = PendingIntent.getBroadcast(
+                    context, messageId, deliveredIntent, PendingIntent.FLAG_IMMUTABLE);
+
+            ArrayList<PendingIntent> sPI = new ArrayList<PendingIntent>();
+            ArrayList<PendingIntent> dPI = new ArrayList<PendingIntent>();
+
+            String body = text;
+
+            // edit the body of the text if unicode needs to be stripped
+            if (settings.getStripUnicode()) {
+                body = StripAccents.stripAccents(body);
+            }
+
+            if (!settings.getPreText().equals("")) {
+                body = settings.getPreText() + " " + body;
+            }
+
+            SmsManager smsManager = SmsManagerFactory.createSmsManager(settings);
+            Log.v("send_transaction", "found sms manager");
+
+            if (settings.getSplit()) {
+                Log.v("send_transaction", "splitting message");
+                // figure out the length of supported message
+                int[] splitData = SmsMessage.calculateLength(body, false);
+
+                // we take the current length + the remaining length to get the total number of characters
+                // that message set can support, and then divide by the number of message that will require
+                // to get the length supported by a single message
+                int length = (body.length() + splitData[2]) / splitData[0];
+                Log.v("send_transaction", "length: " + length);
+
+                boolean counter = false;
+                if (settings.getSplitCounter() && body.length() > length) {
+                    counter = true;
+                    length -= 6;
                 }
 
-                sentIntent.putExtra("message_uri", messageUri == null ? "" : messageUri.toString());
-                sentIntent.putExtra(SENT_SMS_BUNDLE, sentMessageParcelable);
-                PendingIntent sentPI = PendingIntent.getBroadcast(
-                        context, messageId, sentIntent, PendingIntent.FLAG_IMMUTABLE);
+                // get the split messages
+                String[] textToSend = splitByLength(body, length, counter);
 
-                Intent deliveredIntent;
-                if (explicitDeliveredSmsReceiver == null) {
-                    deliveredIntent = new Intent(SMS_DELIVERED);
-                    BroadcastUtils.addClassName(context, deliveredIntent, SMS_DELIVERED);
-                } else {
-                    deliveredIntent = explicitDeliveredSmsReceiver;
-                }
+                // send each message part to each recipient attached to message
+                for (int j = 0; j < textToSend.length; j++) {
+                    ArrayList<String> parts = smsManager.divideMessage(textToSend[j]);
 
-                deliveredIntent.putExtra("message_uri", messageUri == null ? "" : messageUri.toString());
-                deliveredIntent.putExtra(DELIVERED_SMS_BUNDLE, deliveredParcelable);
-                PendingIntent deliveredPI = PendingIntent.getBroadcast(
-                        context, messageId, deliveredIntent, PendingIntent.FLAG_IMMUTABLE);
-
-                ArrayList<PendingIntent> sPI = new ArrayList<PendingIntent>();
-                ArrayList<PendingIntent> dPI = new ArrayList<PendingIntent>();
-
-                String body = text;
-
-                // edit the body of the text if unicode needs to be stripped
-                if (settings.getStripUnicode()) {
-                    body = StripAccents.stripAccents(body);
-                }
-
-                if (!settings.getPreText().equals("")) {
-                    body = settings.getPreText() + " " + body;
-                }
-
-                SmsManager smsManager = SmsManagerFactory.createSmsManager(settings);
-                Log.v("send_transaction", "found sms manager");
-
-                if (settings.getSplit()) {
-                    Log.v("send_transaction", "splitting message");
-                    // figure out the length of supported message
-                    int[] splitData = SmsMessage.calculateLength(body, false);
-
-                    // we take the current length + the remaining length to get the total number of characters
-                    // that message set can support, and then divide by the number of message that will require
-                    // to get the length supported by a single message
-                    int length = (body.length() + splitData[2]) / splitData[0];
-                    Log.v("send_transaction", "length: " + length);
-
-                    boolean counter = false;
-                    if (settings.getSplitCounter() && body.length() > length) {
-                        counter = true;
-                        length -= 6;
-                    }
-
-                    // get the split messages
-                    String[] textToSend = splitByLength(body, length, counter);
-
-                    // send each message part to each recipient attached to message
-                    for (int j = 0; j < textToSend.length; j++) {
-                        ArrayList<String> parts = smsManager.divideMessage(textToSend[j]);
-
-                        for (int k = 0; k < parts.size(); k++) {
-                            sPI.add(saveMessage ? sentPI : null);
-                            dPI.add(settings.getDeliveryReports() && saveMessage ? deliveredPI : null);
-                        }
-
-                        Log.v("send_transaction", "sending split message");
-                        sendDelayedSms(smsManager, addresses[i], parts, sPI, dPI, delay, messageUri);
-                    }
-                } else {
-                    Log.v("send_transaction", "sending without splitting");
-                    // send the message normally without forcing anything to be split
-                    ArrayList<String> parts = smsManager.divideMessage(body);
-
-                    for (int j = 0; j < parts.size(); j++) {
+                    for (int k = 0; k < parts.size(); k++) {
                         sPI.add(saveMessage ? sentPI : null);
                         dPI.add(settings.getDeliveryReports() && saveMessage ? deliveredPI : null);
                     }
 
-                    if (Utils.isDefaultSmsApp(context)) {
+                    Log.v("send_transaction", "sending split message");
+                    sendDelayedSms(smsManager, addresses[i], parts, sPI, dPI, delay, messageUri);
+                }
+            } else {
+                Log.v("send_transaction", "sending without splitting");
+                // send the message normally without forcing anything to be split
+                ArrayList<String> parts = smsManager.divideMessage(body);
+
+                for (int j = 0; j < parts.size(); j++) {
+                    sPI.add(saveMessage ? sentPI : null);
+                    dPI.add(settings.getDeliveryReports() && saveMessage ? deliveredPI : null);
+                }
+
+                if (Utils.isDefaultSmsApp(context)) {
+                    try {
+                        Log.v("send_transaction", "sent message");
+                        sendDelayedSms(smsManager, addresses[i], parts, sPI, dPI, delay, messageUri);
+                    } catch (Exception e) {
+                        // whoops...
+                        Log.v("send_transaction", "error sending message");
+                        Log.e(TAG, "exception thrown", e);
+
                         try {
-                            Log.v("send_transaction", "sent message");
-                            sendDelayedSms(smsManager, addresses[i], parts, sPI, dPI, delay, messageUri);
-                        } catch (Exception e) {
-                            // whoops...
-                            Log.v("send_transaction", "error sending message");
-                            Log.e(TAG, "exception thrown", e);
+                            ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
 
-                            try {
-                                ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content).post(new Runnable() {
-
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(context, "Message could not be sent", Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                            } catch (Exception f) { }
-                        }
-                    } else {
-                        // not default app, so just fire it off right away for the hell of it
-                        smsManager.sendMultipartTextMessage(addresses[i], null, parts, sPI, dPI);
+                                @Override
+                                public void run() {
+                                    Toast.makeText(context, "Message could not be sent", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        } catch (Exception f) { }
                     }
+                } else {
+                    // not default app, so just fire it off right away for the hell of it
+                    smsManager.sendMultipartTextMessage(addresses[i], null, parts, sPI, dPI);
                 }
             }
         }
@@ -389,6 +391,9 @@ public class Transaction {
     }
 
     private boolean checkIfMessageExistsAfterDelay(Uri messageUti) {
+        if (!saveMessage) {
+            return true;
+        }
         Cursor query = context.getContentResolver().query(messageUti, new String[] {"_id"}, null, null, null);
         if (query != null && query.moveToFirst()) {
             query.close();
