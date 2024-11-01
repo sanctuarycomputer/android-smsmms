@@ -69,6 +69,9 @@ public class DownloadManager {
                 .scheme(ContentResolver.SCHEME_CONTENT)
                 .build();
         Intent download = new Intent(receiver.mAction);
+        // TODO: remove uuid suffix from action
+        // add data to intent, because it will still be distinct intents for the purpose of PendingIntent.FLAG_CANCEL_CURRENT
+        // see docs: https://developer.android.com/reference/android/app/PendingIntent.html
         download.putExtra(MmsReceivedReceiver.EXTRA_FILE_PATH, mDownloadFile.getPath());
         download.putExtra(MmsReceivedReceiver.EXTRA_LOCATION_URL, location);
         download.putExtra(MmsReceivedReceiver.EXTRA_TRIGGER_PUSH, byPush);
