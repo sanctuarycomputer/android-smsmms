@@ -58,7 +58,9 @@ public class DownloadManager {
         mMap.put(location, receiver);
 
         // Use unique action in order to avoid cancellation of notifying download result.
-        context.getApplicationContext().registerReceiver(receiver, new IntentFilter(receiver.mAction));
+        // TODO: remove this comment
+
+        context.getApplicationContext().registerReceiver(receiver, new IntentFilter(receiver.ACTION));
 
         Log.v(TAG, "receiving with system method");
         final String fileName = "download." + String.valueOf(Math.abs(new Random().nextLong())) + ".dat";
@@ -68,7 +70,10 @@ public class DownloadManager {
                 .path(fileName)
                 .scheme(ContentResolver.SCHEME_CONTENT)
                 .build();
-        Intent download = new Intent(receiver.mAction);
+        Intent download = new Intent(receiver.ACTION);
+
+        // TODO: we do need to set data here but then the broadcast receiver doesn't work?
+//        download.setData(contentUri);
         // TODO: remove uuid suffix from action
         // add data to intent, because it will still be distinct intents for the purpose of PendingIntent.FLAG_CANCEL_CURRENT
         // see docs: https://developer.android.com/reference/android/app/PendingIntent.html
@@ -100,16 +105,18 @@ public class DownloadManager {
     }
 
     private static class MmsDownloadReceiver extends BroadcastReceiver {
-        private static final String ACTION_PREFIX = "com.android.mms.transaction.DownloadManager$MmsDownloadReceiver.";
-        private final String mAction;
-
-        MmsDownloadReceiver() {
-            mAction = ACTION_PREFIX + UUID.randomUUID().toString();
-        }
+        private static final String ACTION = "com.android.mms.transaction.DownloadManager$MmsDownloadReceiver.";
+//        private final String mAction;
+//
+//        MmsDownloadReceiver() {
+//            mAction = ACTION_PREFIX + UUID.randomUUID().toString();
+//        }
 
         @Override
         public void onReceive(Context context, Intent intent) {
             context.unregisterReceiver(this);
+
+            Log.v(TAG, "received download result");
 
             PowerManager pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
             PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MMS DownloadReceiver");
