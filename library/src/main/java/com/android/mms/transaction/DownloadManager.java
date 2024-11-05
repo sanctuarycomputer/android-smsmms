@@ -57,9 +57,6 @@ public class DownloadManager {
         MmsDownloadReceiver receiver = new MmsDownloadReceiver();
         mMap.put(location, receiver);
 
-        // Use unique action in order to avoid cancellation of notifying download result.
-        // TODO: remove this comment
-
         context.getApplicationContext().registerReceiver(receiver, new IntentFilter(receiver.ACTION));
 
         Log.v(TAG, "receiving with system method");
@@ -72,17 +69,20 @@ public class DownloadManager {
                 .build();
         Intent download = new Intent(receiver.ACTION);
 
-        // TODO: we do need to set data here but then the broadcast receiver doesn't work?
-//        download.setData(contentUri);
-        // TODO: remove uuid suffix from action
-        // add data to intent, because it will still be distinct intents for the purpose of PendingIntent.FLAG_CANCEL_CURRENT
-        // see docs: https://developer.android.com/reference/android/app/PendingIntent.html
         download.putExtra(MmsReceivedReceiver.EXTRA_FILE_PATH, mDownloadFile.getPath());
         download.putExtra(MmsReceivedReceiver.EXTRA_LOCATION_URL, location);
         download.putExtra(MmsReceivedReceiver.EXTRA_TRIGGER_PUSH, byPush);
         download.putExtra(MmsReceivedReceiver.EXTRA_URI, uri);
+
+        // originally this library added the uuid to the action each time it registered a receiver and broadcasted the download
+        // this would throw a 'sending non-protected broadcast' error that couldn't be resolved since we couldn't
+        // add the dynamic action name to the manifest
+        // setting a unique request code should be enough to uniquely identify the pending intent
+
+        int requestCode = UUID.randomUUID().hashCode();
+
         final PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                context, 0, download, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+                context, requestCode, download, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         Bundle configOverrides = new Bundle();
         String httpParams = MmsConfig.getHttpParams();
@@ -106,11 +106,6 @@ public class DownloadManager {
 
     private static class MmsDownloadReceiver extends BroadcastReceiver {
         private static final String ACTION = "com.android.mms.transaction.DownloadManager$MmsDownloadReceiver.";
-//        private final String mAction;
-//
-//        MmsDownloadReceiver() {
-//            mAction = ACTION_PREFIX + UUID.randomUUID().toString();
-//        }
 
         @Override
         public void onReceive(Context context, Intent intent) {
