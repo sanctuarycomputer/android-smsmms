@@ -46,7 +46,7 @@ import com.google.android.mms.pdu_alt.PduHeaders;
 import com.google.android.mms.pdu_alt.PduParser;
 import com.google.android.mms.pdu_alt.PduPersister;
 import com.google.android.mms.pdu_alt.ReadOrigInd;
-import android.util.Log;
+import com.klinker.android.logger.Log;
 import com.klinker.android.send_message.BroadcastUtils;
 import com.klinker.android.send_message.Utils;
 
@@ -66,7 +66,7 @@ import static com.google.android.mms.pdu_alt.PduHeaders.MESSAGE_TYPE_READ_ORIG_I
  * TransactionService by passing the push-data to it.
  */
 public class PushReceiver extends BroadcastReceiver {
-    private static final String TAG = "CONAN Pushreceiver";
+    private static final String TAG = LogTag.TAG;
     private static final boolean DEBUG = false;
     private static final boolean LOCAL_LOGV = true;
 
@@ -178,8 +178,6 @@ public class PushReceiver extends BroadcastReceiver {
                                 downloadedUrls.add(location);
                             }
 
-//                            downloadedUrls.add(location);
-
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                 Log.v(TAG, "receiving on a lollipop+ device");
                                 boolean useSystem = true;
@@ -193,7 +191,6 @@ public class PushReceiver extends BroadcastReceiver {
                                 }
 
                                 if (useSystem) {
-                                    Log.v("CONAN", "downloading multimedia message");
                                     DownloadManager.getInstance().downloadMultimediaMessage(mContext, location, uri, true);
                                 } else {
                                     Log.v(TAG, "receiving with lollipop method");
