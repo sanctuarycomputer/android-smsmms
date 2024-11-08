@@ -57,8 +57,7 @@ public class DownloadManager {
         MmsDownloadReceiver receiver = new MmsDownloadReceiver();
         mMap.put(location, receiver);
 
-        // Use unique action in order to avoid cancellation of notifying download result.
-        context.getApplicationContext().registerReceiver(receiver, new IntentFilter(receiver.mAction));
+        context.getApplicationContext().registerReceiver(receiver, new IntentFilter(receiver.ACTION));
 
         Log.v(TAG, "receiving with system method");
         final String fileName = "download." + String.valueOf(Math.abs(new Random().nextLong())) + ".dat";
@@ -68,13 +67,26 @@ public class DownloadManager {
                 .path(fileName)
                 .scheme(ContentResolver.SCHEME_CONTENT)
                 .build();
-        Intent download = new Intent(receiver.mAction);
+        Intent download = new Intent(receiver.ACTION);
+
         download.putExtra(MmsReceivedReceiver.EXTRA_FILE_PATH, mDownloadFile.getPath());
         download.putExtra(MmsReceivedReceiver.EXTRA_LOCATION_URL, location);
         download.putExtra(MmsReceivedReceiver.EXTRA_TRIGGER_PUSH, byPush);
         download.putExtra(MmsReceivedReceiver.EXTRA_URI, uri);
+
+        /*
+        the original code added a uuid to the ACTION name each time it registered the receiver and broadcast the intent - we can assume they did this to make the intents unique
+        however, this would cause a 'sending non-protected broadcast' error, which we can't protect, since we have to explicitly define the action in the manifest
+        using a unique request code here keeps the same behaviour as originally intended, of making the intent unique. alternatively, we could've used intent.setData, but i found that doing this would cause the receiver onReceive to not get called
+        for additional information:
+        https://developer.android.com/reference/android/content/Intent#filterEquals(android.content.Intent)
+        https://stackoverflow.com/questions/21526319/whats-requestcode-used-for-on-pendingintent
+        */
+
+        int requestCode = UUID.randomUUID().hashCode();
+
         final PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                context, 0, download, PendingIntent.FLAG_CANCEL_CURRENT);
+                context, requestCode, download, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         Bundle configOverrides = new Bundle();
         String httpParams = MmsConfig.getHttpParams();
@@ -94,12 +106,7 @@ public class DownloadManager {
     }
 
     private static class MmsDownloadReceiver extends BroadcastReceiver {
-        private static final String ACTION_PREFIX = "com.android.mms.transaction.DownloadManager$MmsDownloadReceiver.";
-        private final String mAction;
-
-        MmsDownloadReceiver() {
-            mAction = ACTION_PREFIX + UUID.randomUUID().toString();
-        }
+        private static final String ACTION = "com.android.mms.transaction.DownloadManager$MmsDownloadReceiver.";
 
         @Override
         public void onReceive(Context context, Intent intent) {
