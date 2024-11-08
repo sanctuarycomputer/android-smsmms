@@ -74,10 +74,14 @@ public class DownloadManager {
         download.putExtra(MmsReceivedReceiver.EXTRA_TRIGGER_PUSH, byPush);
         download.putExtra(MmsReceivedReceiver.EXTRA_URI, uri);
 
-        // originally this library added the uuid to the action each time it registered a receiver and broadcasted the download
-        // this would throw a 'sending non-protected broadcast' error that couldn't be resolved since we couldn't
-        // add the dynamic action name to the manifest
-        // setting a unique request code should be enough to uniquely identify the pending intent
+        /*
+        the original code added a uuid to the ACTION name each time it registered the receiver and broadcast the intent - we can assume they did this to make the intents unique
+        however, this would cause a 'sending non-protected broadcast' error, which we can't protect, since we have to explicitly define the action in the manifest
+        using a unique request code here keeps the same behaviour as originally intended, of making the intent unique. alternatively, we could've used intent.setData, but i found that doing this would cause the receiver onReceive to not get called
+        for additional information:
+        https://developer.android.com/reference/android/content/Intent#filterEquals(android.content.Intent)
+        https://stackoverflow.com/questions/21526319/whats-requestcode-used-for-on-pendingintent
+        */
 
         int requestCode = UUID.randomUUID().hashCode();
 
