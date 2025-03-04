@@ -114,6 +114,8 @@ public class MmsConfig {
         if (LOCAL_LOGV) {
             Log.v(TAG, "MmsConfig.init()");
         }
+        Log.setDebug(true);
+        Log.i("LP3_MMS_CONFIG", "MmsConfig.init()");
         // Always put the mnc/mcc in the log so we can tell which mms_config.xml was loaded.
 
         loadMmsSettings(context);
@@ -197,6 +199,7 @@ public class MmsConfig {
     private static void loadMmsSettings(Context context) {
         XmlResourceParser parser = context.getResources().getXml(R.xml.mms_config);
 
+        Log.i("LP3_MMS_CONFIG", "parsing document");
         try {
             beginDocument(parser, "mms_config");
 
@@ -213,9 +216,9 @@ public class MmsConfig {
                     text = parser.getText();
                 }
 
+                Log.i("LP3_MMS_CONFIG", "tag: " + tag + " value: " + value + " - " + text);
                 if (DEBUG) {
-                    Log.v(TAG, "tag: " + tag + " value: " + value + " - " +
-                            text);
+                    Log.v(TAG, "tag: " + tag + " value: " + value + " - " +  text);
                 }
                 if ("name".equalsIgnoreCase(name)) {
                     if ("bool".equals(tag)) {
@@ -303,10 +306,13 @@ public class MmsConfig {
             }
         } catch (XmlPullParserException e) {
             Log.e(TAG, "loadMmsSettings caught ", e);
+            Log.e("LP3_MMS_CONFIG", "loadmmssettings", e);
         } catch (NumberFormatException e) {
             Log.e(TAG, "loadMmsSettings caught ", e);
+            Log.e("LP3_MMS_CONFIG", "loadmmssettings", e);
         } catch (IOException e) {
             Log.e(TAG, "loadMmsSettings caught ", e);
+            Log.e("LP3_MMS_CONFIG", "loadmmssettings", e);
         } finally {
             parser.close();
         }
