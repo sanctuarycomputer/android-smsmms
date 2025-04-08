@@ -667,7 +667,7 @@ public class Transaction {
             intent.putExtra(MmsSentReceiver.EXTRA_CONTENT_URI, messageUri.toString());
             intent.putExtra(MmsSentReceiver.EXTRA_FILE_PATH, mSendFile.getPath());
             final PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                    context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+                    context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
             Uri writerUri = (new Uri.Builder())
                     .authority(context.getPackageName() + ".MmsFileProvider")
