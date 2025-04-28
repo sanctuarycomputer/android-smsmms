@@ -16,10 +16,10 @@ android {
       }
     }
 
-    compileSdkVersion 25
+    compileSdkVersion 34
     defaultConfig {
-        minSdkVersion 24
-        targetSdkVersion 25
+        minSdkVersion 27
+        targetSdkVersion 27
     }
 
     lintOptions {
@@ -30,8 +30,8 @@ android {
 }
 
 dependencies {
-    lp2Implementation files('../../shared/framework_all.jar')
-    lp3Implementation files('../../shared/lp3_framework_all.jar')
+    lp2Implementation files('../../../../framework_all/lp2.jar')
+    lp3Implementation files('../../../../framework_all/lp3.jar')
     implementation 'com.klinkerapps:logger:1.0.3'
     implementation 'com.squareup.okhttp:okhttp:2.5.0'
     implementation 'com.squareup.okhttp:okhttp-urlconnection:2.5.0'
@@ -39,7 +39,7 @@ dependencies {
 
 gradle.projectsEvaluated {
     tasks.withType(JavaCompile) { task ->
-        def isLp3 = task.toString().indexOf("Lp3") != -1;
-        options.compilerArgs.add("-Xbootclasspath/p:${rootDir}/shared/${isLp3 ? 'lp3_' : ''}framework_all.jar")
+        def isLp3 = task.toString().indexOf("Lp3") != -1
+        options.compilerArgs.add("-Xbootclasspath/p:${rootDir}/../../framework_all/${isLp3 ? 'lp3' : 'lp2'}.jar")
     }
 }
